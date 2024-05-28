@@ -1,0 +1,56 @@
+<div class="comments-container">
+    <div class="review-container">
+    <h2>Customer Reviews</h2>
+    <div class="rating-summary">
+        <div class="rating-bar">
+        </div>
+        <span class="rating-text"><strong style="color: black;">{{ product.get_average_rating }}</strong> stars based on <strong style="color: black;">{{ comments.count }}</strong> ratings</span>
+    </div>
+
+    <div class="reviews">
+        {% for comment in comments %}
+            <div class="review-card">
+                <div class="review-content">
+                    <div class="user-info">
+                        <span class="username">{{comment.user}}</span>
+                        <span class="date">{{comment.created_on}}</span>
+                    </div>
+                    <div class="rating">
+                        {% for _ in comment.get_rating %}
+                            ★
+                        {% endfor %}
+                    </div>
+                    <p class="comment">{{comment.text}}</p>
+                    {% if comment.image %}
+                        <img src="{{ comment.image.url }}" alt="Review Image" class="review-image">
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="create-comment-container">
+        <h2 class="create-comment-head">Add a review</h2>
+        {% if user.is_authenticated %}
+            <div class="comment-form-container">
+                <form method="POST" enctype="multipart/form-data" action="{% url 'comments:add_comment' pk=product.id %}">
+                    {% csrf_token %}
+                    <label for="id_comment_text" class="comment-label">Comment:</label>
+                    <textarea id="id_comment_text" name="comment_text" class="comment-textarea" rows="4" cols="50"></textarea>
+                    <br>
+                    <label for="id_comment_rating" class="comment-label">Rating (1-5):</label>
+                    <input type="number" id="id_comment_rating" name="comment_rating" class="comment-rating-input" min="1" max="5">
+                    <br>
+                    <p></p>
+                    <label for="id_comment_image" class="comment-label">Upload Image (Optional):</label>
+                    <input type="file" id="id_comment_image" name="comment_image">
+                    <br>
+                    <button type="submit" class="comment-submit-btn btn btn-secondary">Submit Comment</button>
+                </form>
+            </div>
+        {% else %}
+            <p class="to-log">You need to be logged in to add a comment</p>
+        {% endif %}
+    </div>
+</div>
+</div>

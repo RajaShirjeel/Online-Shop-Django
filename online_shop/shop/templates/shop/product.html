@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="product-detail-img-container">
+                    <img src="{{product.image_url}}" alt="{{product.name}}" class="product-detail-image">
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="product-details">
+                    <div class="product-details-container1">
+                        <h1 class="product-detail-name">{{product.name}}</h1>
+                        <h2 class="product-detail-price">₹{{product.price}}</h2>
+                        <div class="product-detail-review">
+                            <span class="rating-button">{{product.get_average_rating}}⭐</span>
+                            <span class="rating-text">{{comments.count}} Reviews*</span>
+                        </div>                        
+                    </div>
+
+                    <div class="product-details-container2">
+                        <div class="size-options">
+                            <label class="product-size-header">Select size</label>
+                            <br>
+                            <select id="size-select">
+                                {% for size in sizes %}
+                                    {% if size.available %}
+                                        <option value="{{size.size.name}}">{{size.size.name}}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                    {% if 2 > product.quantity and product.quantity > 0%}
+                        <div class="less-quan">
+                            <p>Only {{product.quantity}} left in stock</p>
+                        </div>
+                    {% endif %}
+                       
+                    
+                    {% if product.quantity > 0 %}
+                        <div class="product-details-container3">
+                            <button class="btn btn-secondary add-to-cart" onclick="getSize('{{product.pk}}')"><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-cart2" viewBox="0 0 16 16">
+                                <path d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5M3.14 5l1.25 5h8.22l1.25-5zM5 13a1 1 0 1 0 0 2 1 1 0 0 0 0-2m-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0m9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2m-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0"/>
+                            </svg> Add to cart</button>
+                        </div>
+                    {% else %}
+                        <div class="product-details-container3" id="sold-out">
+                            Sold Out
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% include "comments/comments.html" %}
+    </div>
+
+
+
+
+    
+{% endblock %}

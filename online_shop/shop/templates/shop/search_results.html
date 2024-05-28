@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h2 class="search-results-heading">Search Results for "{{ query }}"</h2>
+    {% if products %}
+        <div class="container-fluid">
+            <div class="row">
+                {% for product in products %}
+                    <div class="col-md-6 col-lg-3 col-sm-6">
+                        <a href="{% url 'shop:view_product' pk=product.id %}" class="normal-links">
+                            <div class="card">
+                                <img src="{{product.image_url}}" class="card-img" alt="{{product.name}}">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{product.name}}</h5>
+                                    <p class="card-text">₹{{product.price}}</p>
+                                </a>
+                                    <span class="card-span">Free Delivery</span>  
+                                </div>
+                            </div>
+                    </div>
+                {% endfor %}
+            </div>        
+        </div>
+    {% else %}
+        <h1 class="search-results-nf">No products found!</h1>
+
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends 'base.html'  %}
+{% block content %}
+    <div class="container-fluid">
+        <div class="row">
+            {% for product in product_list %}
+                <div class="col-md-6 col-lg-3 col-sm-6">
+                    <a href="{% url 'shop:view_product' pk=product.id %}" class="normal-links">
+                        <div class="card">
+                            <img src="{{product.image_url}}" class="card-img" alt="{{product.name}}">
+                            <div class="card-body">
+                                <h5 class="card-title">{{product.name}}</h5>
+                                <p class="card-text">₹{{product.price}}</p>
+                            </a>
+                                <span class="card-span">Free Delivery</span>  
+                            </div>
+                        </div>
+                </div>
+            {% endfor %}
+            <div class="pagination">
+                <span class="step-links">
+                    {% if page_obj.has_previous %}
+                        <a href="?page={{ page_obj.previous_page_number }}" style="text-decoration: none;">
+                            <button class="btn btn-secondary next-btn">Previous</button>
+                        </a>
+                    {% endif %}
+            
+                    <span class="current">
+                        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+                    </span>
+            
+                    {% if page_obj.has_next %}
+                        <a href="?page={{ page_obj.next_page_number }}" style="text-decoration: none;">
+                            <button class="btn btn-secondary next-btn">Next</button>
+                        </a>
+                    {% endif %}
+                </span>
+            </div>
+            
+        </div>        
+    </div>
+    
+
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="orders-container mt-5">
+    <h2>Your Orders</h2>
+    {% if orders %}
+        {% for order in orders %}
+            <div class="order-card mb-4">
+                <div class="order-card-body">
+                    <h5 class="order-id">Order ID: {{ order.id }}</h5>
+                    <p>Order Date: {{ order.order_date }}</p>
+                    <h6>Items:</h6>
+                    <ul>
+                        {% for item in order.order_items.all %}
+                            <li><a href="{% url 'shop:view_product' pk=item.product.id %}" style="text-decoration: none; color: black;">{{item.product.name }} - Size: {{ item.size }} - Quantity: {{ item.quantity }} - ₹{{ item.get_total_product }}</a></li>
+                        {% endfor %}
+                    </ul>
+                    <h5>Total: ₹{{ order.get_total }}</h5>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>You have no orders.</p>
+    {% endif %}
+</div>
+{% endblock %}

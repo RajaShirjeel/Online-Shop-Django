@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="checkout-container mt-5">
+    <div class="row">
+        <!-- Order Summary -->
+        <div class="col-lg-6 mb-4">
+            <h2 class="checkout-title mb-3">Order Summary</h2>
+            <div class="checkout-card">
+                <div class="checkout-card-body">
+                    {% for cart_item in cart_items %}
+                    <div class="checkout-item d-flex justify-content-between align-items-center mb-3">
+                        <div class="d-flex align-items-center">
+                            <img src="{{ cart_item.product.image_url }}" alt="{{ cart_item.product.name }}" class="checkout-img-thumbnail">
+                            <div>
+                                <h5 class="checkout-product-name mb-0">{{ cart_item.product.name }}</h5>
+                                <small style="padding-left: 10px;">Size: {{ cart_item.size }}</small><br>
+                                <small style="padding-left: 10px;">Quantity: {{ cart_item.quantity }}</small>
+                            </div>
+                        </div>
+                        <div>
+                            <h5 class="checkout-product-total mb-0">₹{{ cart_item.get_total_product }}</h5>
+                        </div>
+                    </div>
+                    <hr>
+                    {% endfor %}
+                    <div class="checkout-total d-flex justify-content-between align-items-center">
+                        <h5>Total</h5>
+                        <h5>₹{{total}}</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Shipping Address -->
+        <div class="col-lg-6">
+            <h2 class="checkout-title mb-3">Shipping Address</h2>
+            <form method="post" class="checkout-form">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="address">Address</label>
+                    <input type="text" class="form-control" id="address" name="address" required>
+                </div>
+                <div class="form-group">
+                    <label for="city">City</label>
+                    <input type="text" class="form-control" id="city" name="city" required>
+                </div>
+                <div class="form-group">
+                    <label for="state">State</label>
+                    <input type="text" class="form-control" id="state" name="state" required>
+                </div>
+                <div class="form-group">
+                    <label for="zipcode">Zipcode</label>
+                    <input type="text" class="form-control" id="zipcode" name="zipcode" required>
+                </div>
+                <button type="submit" class="btn btn-secondary btn-block checkout-btn">Place Order</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

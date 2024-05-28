@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="order-success-container">
+        <div class="order-success-icon">&#10004;</div>
+        <h1 class="order-success-heading">Order Placed Successfully</h1>
+        <p class="order-success-text">Thank you for your order! Your items will be processed and shipped shortly.</p>
+        <a href="{% url 'shop:home' %}" class="go-home-link">Go to Home</a>
+    </div>
+{% endblock %}
